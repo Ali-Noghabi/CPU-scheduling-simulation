@@ -1,5 +1,6 @@
 use std::fs::File;
 use std::io::{self, BufRead, BufReader};
+use std::collections::VecDeque;
 
 #[derive(Clone, Debug)]
 struct Task {
@@ -29,6 +30,57 @@ fn fcfs(mut tasks: Vec<Task>) -> Vec<Task> {
     }
     tasks
 }
+
+// RR Scheduler Function
+fn round_robin(mut tasks: Vec<Task>, quantum: u32) -> Vec<Task> {
+    println!("RR (Round Robin) with time_quantum = {}" , quantum);
+    let mut queue = VecDeque::new();
+    let mut current_time = 0;
+    let mut completed_tasks = Vec::new();
+
+    while !tasks.is_empty() || !queue.is_empty() {
+        // Move tasks to the queue based on their arrival time
+        while let Some(task) = tasks.first().cloned() {
+            if task.time_arrival <= current_time {
+                println!("Time {}: Task {} arrived and added to the queue", current_time, task.pid);
+                queue.push_back(tasks.remove(0));
+            } else {
+                break;
+            }
+        }
+
+        if let Some(mut task) = queue.pop_front() {
+            if task.start_time.is_none() {
+                task.start_time = Some(current_time);
+                println!("Time {}: Task {} starts", current_time, task.pid);
+            } else {
+                println!("Time {}: Task {} resumes", current_time, task.pid);
+            }
+
+            let execution_time = std::cmp::min(task.remaining_time, quantum);
+            current_time += execution_time;
+            task.remaining_time -= execution_time;
+
+            if task.remaining_time > 0 {
+                println!("Time {}: Task {} preempted with {} time unit(s) remaining", current_time, task.pid, task.remaining_time);
+                queue.push_back(task);
+            } else {
+                task.finish_time = Some(current_time);
+                println!("Time {}: Task {} finishes", current_time, task.pid);
+                completed_tasks.push(task);
+            }
+        } else {
+            // Handle idle CPU time
+            println!("Time {}: CPU Idle", current_time);
+            if let Some(next_task) = tasks.first() {
+                current_time = next_task.time_arrival;
+            }
+        }
+    }
+
+    completed_tasks
+}
+
 
 // Function to calculate average waiting time and turnaround time
 fn calculate_metrics(tasks: &[Task]) -> (f64, f64) {
@@ -77,8 +129,16 @@ fn main() {
     match read_tasks_from_file(tasks_file_path) {
         Ok(tasks) => {
             let completed_fcfs = fcfs(tasks.clone());
+            let completed_rr = round_robin(tasks.clone(), 2);
+            // let completed_srtf = srtf(tasks.clone());
+        
             let (fcfs_avg_wait, fcfs_avg_turn) = calculate_metrics(&completed_fcfs);
+            let (rr_avg_wait, rr_avg_turn) = calculate_metrics(&completed_rr);
+            // let (srtf_avg_wait, srtf_avg_turn) = calculate_metrics(&completed_srtf);
+        
             println!("FCFS Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}", fcfs_avg_wait, fcfs_avg_turn);
+            println!("RR Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}", rr_avg_wait, rr_avg_turn);
+            // println!("SRTF Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}", srtf_avg_wait, srtf_avg_turn);
         },
         Err(e) => {
             eprintln!("Failed to read tasks from {}: {}", tasks_file_path, e);

@@ -4,3 +4,6 @@ simulate a CPU scheduling system with these methods:
 - First Come First Serve (FCFS)
 - Round-robin_scheduling (RR) 
 
+# TESTS
+## FCFS test
+![Test Image](/fcfs-test.png)

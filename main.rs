@@ -133,12 +133,13 @@ fn main() {
             // let completed_srtf = srtf(tasks.clone());
         
             let (fcfs_avg_wait, fcfs_avg_turn) = calculate_metrics(&completed_fcfs);
-            let (rr_avg_wait, rr_avg_turn) = calculate_metrics(&completed_rr);
-            // let (srtf_avg_wait, srtf_avg_turn) = calculate_metrics(&completed_srtf);
-        
-            println!("FCFS Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}", fcfs_avg_wait, fcfs_avg_turn);
             println!("RR Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}", rr_avg_wait, rr_avg_turn);
-            // println!("SRTF Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}", srtf_avg_wait, srtf_avg_turn);
+            
+            let (rr_avg_wait, rr_avg_turn) = calculate_metrics(&completed_rr);
+            println!("SRTF Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}", srtf_avg_wait, srtf_avg_turn);
+            
+            // let (srtf_avg_wait, srtf_avg_turn) = calculate_metrics(&completed_srtf);
+            // println!("FCFS Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}", fcfs_avg_wait, fcfs_avg_turn);
         },
         Err(e) => {
             eprintln!("Failed to read tasks from {}: {}", tasks_file_path, e);

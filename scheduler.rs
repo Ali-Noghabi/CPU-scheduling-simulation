@@ -87,6 +87,44 @@ pub fn round_robin(mut tasks: Vec<Task>, quantum: u32) -> Vec<Task> {
     completed_tasks
 }
 
+pub fn spn(mut tasks: Vec<Task>) -> Vec<Task> {
+    let mut current_time = 0;
+    let mut completed_tasks = Vec::new();
+
+    while !tasks.is_empty() {
+        // Filter tasks that have arrived
+        let available_tasks: Vec<_> = tasks.iter().enumerate()
+            .filter(|(_, task)| task.time_arrival <= current_time)
+            .collect();
+
+        if let Some((index, _)) = available_tasks.iter()
+            .min_by_key(|(_, task)| task.burst_time) {
+            let mut task = tasks.remove(*index);
+            task.start_time = Some(current_time);
+            println!("Time {}: Task {} starts", current_time, task.pid);
+            current_time += task.burst_time;
+            task.finish_time = Some(current_time);
+            println!("Time {}: Task {} finishes", current_time, task.pid);
+            completed_tasks.push(task);
+        } else {
+            println!("Time {}: CPU Idle", current_time);
+            // Advance time to the next task's arrival if the CPU is idle
+            if let Some(next_task) = tasks.iter().min_by_key(|task| task.time_arrival) {
+                current_time = next_task.time_arrival;
+            } else {
+                break;
+            }
+        }
+    }
+
+    completed_tasks
+}
+
+pub fn sjf(tasks: Vec<Task>) -> Vec<Task> {
+    println!("SJF (Shortest Job First) Output:");
+    spn(tasks) // SJF is equivalent to SPN without preemption
+}
+
 // Function to calculate average waiting time and turnaround time
 pub fn calculate_metrics(tasks: &[Task]) -> (f64, f64) {
     let total_waiting_time: u32 = tasks.iter().map(|task| task.finish_time.unwrap() - task.time_arrival - task.burst_time).sum();

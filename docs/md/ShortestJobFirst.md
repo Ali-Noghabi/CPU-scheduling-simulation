@@ -1,6 +1,6 @@
-## Shortest Process Next (SPN) Scheduling Verification
+## Shortest Job Next (SJN) Scheduling Verification
 
-This document verifies the Shortest Process Next (SPN) scheduling output for the given input tasks.
+This document verifies the Shortest Job Next (SJN) scheduling output for the given input tasks.
 
 ### Input Tasks
 ```
@@ -12,9 +12,9 @@ This document verifies the Shortest Process Next (SPN) scheduling output for the
 6 5 4
 ```
 
-### SPN Scheduling
+### SJN Scheduling
 
-The step-by-step execution of the SPN scheduling is as follows:
+The step-by-step execution of the SJN scheduling is as follows:
 
 1. **Time 0:**
    - Task 1 starts.
@@ -80,10 +80,10 @@ Average Turnaround Time: (4 + 18 + 5 + 2 + 6 + 9) / 6 = 44 / 6 ≈ 7.33
 
 ### Conclusion
 
-The Shortest Process Next (SPN) scheduling output is correct and aligns with the expected behavior of the algorithm:
+The Shortest Job Next (SJN) scheduling output is correct and aligns with the expected behavior of the algorithm:
 
 ```
-SPN (Shortest Process Next) Output:
+SJN (Shortest Job Next) Output:
 Time 0: Task 1 starts
 Time 4: Task 1 finishes
 Time 4: Task 4 starts
@@ -96,7 +96,7 @@ Time 10: Task 6 starts
 Time 14: Task 6 finishes
 Time 14: Task 2 starts
 Time 19: Task 2 finishes
-SPN Average Waiting Time: 4.17, Average Turnaround Time: 7.33
+SJN Average Waiting Time: 4.17, Average Turnaround Time: 7.33
 ```
 
 ### External Verification
@@ -106,4 +106,4 @@ The output is also verified with the website: [https://process-scheduling-solver
 #### Screenshot of Website Verification
 ![Test Image](/docs/img/sjf-spn-verify.png)
 
-This output confirms the correctness of the Shortest Process Next scheduling algorithm implementation and its verification using an external tool.
+This output confirms the correctness of the Shortest Job Next scheduling algorithm implementation and its verification using an external tool.

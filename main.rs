@@ -1,7 +1,7 @@
 mod scheduler;
 use std::fs::File;
 use std::io::{self, BufRead, BufReader};
-use scheduler::{Task, fcfs, round_robin, calculate_metrics};
+use scheduler::{Task, fcfs, round_robin,spn,sjf, calculate_metrics};
 
 // Read tasks from input.txt file
 fn read_tasks_from_file(file_path: &str) -> io::Result<Vec<Task>> {
@@ -39,13 +39,23 @@ fn main() {
     match read_tasks_from_file(tasks_file_path) {
         Ok(tasks) => {
 
-            let completed_fcfs = fcfs(tasks.clone());
-            let (fcfs_avg_wait, fcfs_avg_turn) = calculate_metrics(&completed_fcfs);
-            println!("FCFS Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}", fcfs_avg_wait, fcfs_avg_turn);
+            // let completed_fcfs = fcfs(tasks.clone());
+            // let (fcfs_avg_wait, fcfs_avg_turn) = calculate_metrics(&completed_fcfs);
+            // println!("FCFS Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}", fcfs_avg_wait, fcfs_avg_turn);
 
-            let completed_rr = round_robin(tasks.clone(), 2);
-            let (rr_avg_wait, rr_avg_turn) = calculate_metrics(&completed_rr);
-            println!("RR Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}", rr_avg_wait, rr_avg_turn);
+            // let completed_rr = round_robin(tasks.clone(), 2);
+            // let (rr_avg_wait, rr_avg_turn) = calculate_metrics(&completed_rr);
+            // println!("RR Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}", rr_avg_wait, rr_avg_turn);
+            
+            println!("SPN (Shortest Process Next) Output:");
+            let completed_spn = spn(tasks.clone());
+            let (spn_avg_wait, spn_avg_turn) = calculate_metrics(&completed_spn);
+            println!("SPN Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}", spn_avg_wait, spn_avg_turn);
+            
+            let completed_sjf = sjf(tasks.clone());
+            let (sjf_avg_wait, sjf_avg_turn) = calculate_metrics(&completed_sjf);
+            println!("SJF Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}", sjf_avg_wait, sjf_avg_turn);
+
         },
         Err(e) => {
             eprintln!("Failed to read tasks from {}: {}", tasks_file_path, e);

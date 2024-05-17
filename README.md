@@ -10,6 +10,10 @@ simulate a CPU scheduling system with these methods:
 
 ## RR
 [Round Robin (RR)](docs/md/RoundRobin.md)
+
+## SJF & SPN
+[Shortest Job First (SJF)](docs/md/ShortestJobFirst.md)
+[Shortest Process Next (SJF)](docs/md/ShortestProcessNext.md)
 # TESTS
 ## FCFS test
 ### output:
@@ -25,6 +29,12 @@ simulate a CPU scheduling system with these methods:
 ### verification using an external tool:
 ![Test Image](docs/img/rr-verify.png)
 
+## SJN and SPN test
+### output:
+![Test Image](docs/img/sjf-spn-output-test.png)
+
+### verification using an external tool:
+![Test Image](docs/img/sjf-spn-verify.png)
 # Run
 ## install rust
 download and install rust from this [link](https://www.rust-lang.org/tools/install)

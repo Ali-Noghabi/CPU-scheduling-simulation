@@ -1,5 +1,5 @@
 mod scheduler;
-use scheduler::{calculate_metrics, fcfs, round_robin, sjf, spn, srtf, Task};
+use scheduler::{calculate_metrics, fcfs, round_robin, sjf, spn, srtf,priority, Task};
 use std::fs::File;
 use std::io::{self, BufRead, BufReader};
 
@@ -16,7 +16,7 @@ fn read_tasks_from_file(file_path: &str) -> io::Result<Vec<Task>> {
                 .split_whitespace()
                 .filter_map(|word| word.parse::<u32>().ok())
                 .collect();
-            if parts.len() == 3 {
+            if parts.len() == 4 {
                 Some(Task {
                     pid: parts[0],
                     time_arrival: parts[1],
@@ -24,6 +24,7 @@ fn read_tasks_from_file(file_path: &str) -> io::Result<Vec<Task>> {
                     remaining_time: parts[2],
                     start_time: None,
                     finish_time: None,
+                    priority: parts[3],
                 })
             } else {
                 None
@@ -62,6 +63,14 @@ fn main() {
                 "SRTF Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}",
                 srtf_avg_wait, srtf_avg_turn
             );
+
+            let completed_priority = priority(tasks.clone());
+            let (priority_avg_wait, priority_avg_turn) = calculate_metrics(&completed_priority);
+            println!(
+                "Priority Average Waiting Time: {:.2}, Average Turnaround Time: {:.2}",
+                priority_avg_wait, priority_avg_turn
+            );
+
         }
         Err(e) => {
             eprintln!("Failed to read tasks from {}: {}", tasks_file_path, e);

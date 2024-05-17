@@ -8,6 +8,7 @@ pub struct Task {
     pub remaining_time: u32,      // Time remaining for the task completion (used in SRTF and RR)
     pub start_time: Option<u32>,  // Start time of the task in CPU
     pub finish_time: Option<u32>, // Finish time of the task from CPU
+    pub priority: u32,         // Priority of the task (lower number means higher priority)
 }
 
 pub fn fcfs(mut tasks: Vec<Task>) -> Vec<Task> {
@@ -182,6 +183,52 @@ pub fn srtf(mut tasks: Vec<Task>) -> Vec<Task> {
                 completed_tasks.push(task.clone());
                 queue.remove(task_index);
             }
+        } else {
+            println!("Time {}: CPU Idle", current_time);
+            current_time += 1;
+        }
+    }
+
+    completed_tasks
+}
+
+pub fn priority(mut tasks: Vec<Task>) -> Vec<Task> {
+    println!("Priority Scheduling Output:");
+    let mut current_time = 0;
+    let mut queue = VecDeque::new();
+    let mut completed_tasks = Vec::new();
+
+    while !tasks.is_empty() || !queue.is_empty() {
+        // Add tasks to the queue that have arrived by current_time
+        while let Some(task) = tasks.first().cloned() {
+            if task.time_arrival <= current_time {
+                println!(
+                    "Time {}: Task {} arrived and added to the queue",
+                    current_time, task.pid
+                );
+                queue.push_back(tasks.remove(0));
+            } else {
+                break;
+            }
+        }
+
+        // Find the task with the highest priority (lower number means higher priority)
+        if let Some(task_index) = queue.iter()
+            .enumerate()
+            .min_by_key(|&(_, task)| task.priority)
+            .map(|(index, _)| index)
+        {
+            let mut task = queue.remove(task_index).unwrap();
+
+            if task.start_time.is_none() {
+                task.start_time = Some(current_time);
+                println!("Time {}: Task {} starts", current_time, task.pid);
+            }
+
+            current_time += task.burst_time;
+            task.finish_time = Some(current_time);
+            println!("Time {}: Task {} finishes", current_time, task.pid);
+            completed_tasks.push(task);
         } else {
             println!("Time {}: CPU Idle", current_time);
             current_time += 1;

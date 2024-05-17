@@ -14,6 +14,12 @@ simulate a CPU scheduling system with these methods:
 ## SJF & SPN
 [Shortest Job First (SJF)](docs/md/ShortestJobFirst.md)
 [Shortest Process Next (SJF)](docs/md/ShortestProcessNext.md)
+
+## SRTF
+[Shortest Remaining Time First (SRTF)](docs/md/ShortestRemainingTimeFirst.md)
+
+## Priority
+[Priority](docs/md/Priority.md)
 # TESTS
 ## FCFS test
 ### output:
@@ -42,6 +48,13 @@ simulate a CPU scheduling system with these methods:
 
 ### verification using an external tool:
 ![Test Image](docs/img/srtf-verify.png)
+
+## Priority test
+### output:
+![Test Image](docs/img/priority-output-test.png)
+
+### verification using an external tool:
+![Test Image](docs/img/priority-verify.png)
 # Run
 ## install rust
 download and install rust from this [link](https://www.rust-lang.org/tools/install)

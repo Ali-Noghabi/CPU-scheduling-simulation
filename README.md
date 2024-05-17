@@ -1,69 +1,113 @@
-# CPU scheduling simulation
-simulate a CPU scheduling system with these methods:
-- Shortest Remaining Time First (SRTF) 
+
+# CPU Scheduling Simulation
+
+This project simulates various CPU scheduling algorithms. These algorithms are critical in operating systems for managing how processes access the CPU. The implemented scheduling methods are:
+
+- Shortest Remaining Time First (SRTF)
 - First Come First Serve (FCFS)
-- Round-robin_scheduling (RR) 
+- Round Robin (RR)
+- Shortest Job First (SJF)
+- Shortest Process Next (SPN)
+- Non-preemptive Priority Scheduling
 
-# more detailed 
-## FCFS
-[First Come First Serve (FCFS)](docs/md/FirstComeFirstServe.md)
+## Project Overview
 
-## RR
-[Round Robin (RR)](docs/md/RoundRobin.md)
+This project allows you to understand and visualize how different CPU scheduling algorithms work. By simulating these algorithms, you can compare their performance based on metrics such as average waiting time and turnaround time.
 
-## SJF & SPN
-[Shortest Job First (SJF)](docs/md/ShortestJobFirst.md)
-[Shortest Process Next (SJF)](docs/md/ShortestProcessNext.md)
+## Implemented Scheduling Algorithms
 
-## SRTF
-[Shortest Remaining Time First (SRTF)](docs/md/ShortestRemainingTimeFirst.md)
+### First Come First Serve (FCFS)
 
-## Priority
-[Priority](docs/md/Priority.md)
-# TESTS
-## FCFS test
-### output:
-![Test Image](docs/img/fcfs-output-test.png)
+FCFS is the simplest scheduling algorithm. In this method, the process that arrives first gets executed first. It operates in a non-preemptive manner.
 
-### verification using an external tool:
-![Test Image](docs/img/fcfs-verify.png)
+For more details, visit the [FCFS Documentation](docs/md/FirstComeFirstServe.md).
 
-## RR test
-### output:
-![Test Image](docs/img/rr-output-test.png)
+### Round Robin (RR)
 
-### verification using an external tool:
-![Test Image](docs/img/rr-verify.png)
+RR scheduling assigns a fixed time unit per process, and cycles through them. It is designed to be fair, giving each process a chance to run.
 
-## SJN and SPN test
-### output:
-![Test Image](docs/img/sjf-spn-output-test.png)
+For more details, visit the [Round Robin Documentation](docs/md/RoundRobin.md).
 
-### verification using an external tool:
-![Test Image](docs/img/sjf-spn-verify.png)
+### Shortest Job First (SJF) & Shortest Process Next (SPN)
 
-## SRTF test
-### output:
-![Test Image](docs/img/srtf-output-test.png)
+SJF, also known as SPN, selects the process with the smallest burst time to execute next. This can be non-preemptive or preemptive.
 
-### verification using an external tool:
-![Test Image](docs/img/srtf-verify.png)
+For more details, visit the [SJF Documentation](docs/md/ShortestJobFirst.md) and the [SPN Documentation](docs/md/ShortestProcessNext.md).
 
-## Priority test
-### output:
-![Test Image](docs/img/priority-output-test.png)
+### Shortest Remaining Time First (SRTF)
 
-### verification using an external tool:
-![Test Image](docs/img/priority-verify.png)
-# Run
-## install rust
-download and install rust from this [link](https://www.rust-lang.org/tools/install)
+SRTF is a preemptive version of SJF. It selects the process with the smallest remaining time to execute next.
 
-## run code
-```
-rustc main.rs
-.\main.exe
-```
+For more details, visit the [SRTF Documentation](docs/md/ShortestRemainingTimeFirst.md).
 
+### Non-preemptive Priority Scheduling
 
+In this method, each process is assigned a priority. The CPU is allocated to the process with the highest priority (the smallest priority number).
 
+For more details, visit the [Priority Scheduling Documentation](docs/md/Priority.md).
+
+## Tests and Verification
+
+The output of each scheduling algorithm is verified using an external tool for accuracy.
+
+### FCFS Test
+
+#### Output:
+![FCFS Output](docs/img/fcfs-output-test.png)
+
+#### Verification:
+![FCFS Verification](docs/img/fcfs-verify.png)
+
+### RR Test
+
+#### Output:
+![RR Output](docs/img/rr-output-test.png)
+
+#### Verification:
+![RR Verification](docs/img/rr-verify.png)
+
+### SJF & SPN Test
+
+#### Output:
+![SJF & SPN Output](docs/img/sjf-spn-output-test.png)
+
+#### Verification:
+![SJF & SPN Verification](docs/img/sjf-spn-verify.png)
+
+### SRTF Test
+
+#### Output:
+![SRTF Output](docs/img/srtf-output-test.png)
+
+#### Verification:
+![SRTF Verification](docs/img/srtf-verify.png)
+
+### Priority Scheduling Test
+
+#### Output:
+![Priority Output](docs/img/priority-output-test.png)
+
+#### Verification:
+![Priority Verification](docs/img/priority-verify.png)
+
+## Running the Project
+
+### Prerequisites
+
+- Install Rust from the official [Rust website](https://www.rust-lang.org/tools/install).
+
+### Steps to Run
+
+1. **Compile the Code:**
+   ```bash
+   rustc main.rs
+   ```
+
+2. **Run the Executable:**
+   ```bash
+   ./main.exe
+   ```
+
+## Contributing
+
+If you want to contribute to this project, please fork the repository and submit a pull request with your improvements.
